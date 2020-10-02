@@ -1,0 +1,31 @@
+apply plugin: 'application'
+
+apply plugin: 'java'
+mainClassName = 'hello.HelloWorld'
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    baseName = 'gradle-hellow-world'
+    version =  '0.1.0'
+    manifest {
+        attributes(
+            'Main-Class': 'hello.HelloWorld'
+        )
+    }
+
+    // zip the dependencies with the app jar
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+dependencies {
+    compile "joda-time:joda-time:2.2" // deprecated with gradle 7
+    testCompile "junit:junit:4.12"
+}
